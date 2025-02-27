@@ -1,0 +1,29 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+#gameContainer {
+    position: relative;
+    width: 600px;
+    height: 200px;
+    border: 2px solid black;
+    overflow: hidden;
+    margin: 20px auto;
+    background-color: #f4f4f4;
+}
+#dino {
+    width: 40px;
+    height: 40px;
+    background-color: green;
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+}
+#obstacle {
+    width: 20px;
+    height: 40px;
+    background-color: red;
+    position: absolute;
+    bottom: 0;
+    right: -20px;
+}
