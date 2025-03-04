@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>shooter</title>
+  </head>
+  <body>
+    <script type="module">
+      // Import kaboom.js
+      import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
+
+      // Initialize Kaboom.js
+      kaboom({ width: 600, height: 600, background: [135, 206, 250] });
+
+      // Set up game configuration
+      const PLAYER_SPEED = 300;
+      const BULLET_SPEED = 400;
+      const ENEMY_SPEED = 100;
+
+      // Load assets
+      loadSprite("player", "../mario.png"); // Replace with your own player sprite
+      loadSprite("enemy", "../bullet.webp"); // Replace with your own enemy sprite
+      loadSprite("background", "../marioBackground.jpeg"); // Replace with your own image path
+
+      let pause = false;
+
+      // Define the game scene
+      scene("game", () => {
+        // Define the player
+        const player = add([
+          sprite("player"),
+          pos(width() / 2, height() - 50),
+          area(),
+          body(),
+          scale(0.08),
+          "player",
+        ]);
+
+        // Move player left and right
+        onKeyDown("left", () => {
+          player.move(-PLAYER_SPEED, 0);
+        });
+
+        onKeyDown("right", () => {
+          player.move(PLAYER_SPEED, 0);
+        });
+
+        // Shoot bullets
+        onKeyPress("space", () => {
+          add([
+            rect(5, 10),
+            pos(player.pos.x + 10, player.pos.y),
+            color(255, 0, 0),
+            area(),
+            move(UP, BULLET_SPEED),
+            "bullet",
+          ]);
+        });
+
+        // Spawn enemies
+        loop(1.5, () => {
+          add([
+            sprite("enemy"),
+            pos(rand(0, width()), 0),
+            area(),
+            scale(0.05),
+            move(DOWN, ENEMY_SPEED),
+            "enemy",
+          ]);
+        });
+
+        // Bullet and enemy collision
+        onCollide("bullet", "enemy", (bullet, enemy) => {
+          destroy(bullet);
+          destroy(enemy);
+          addKaboom(enemy.pos);
+        });
+
+        // Enemy reaching bottom of screen ends game
+        onUpdate("enemy", (enemy) => {
+          if (enemy.pos.y > height()) {
+            go("gameover");
+          }
+        });
+      });
+
+      // Define the Game Over Scene
+      scene("gameover", () => {
+        add([text("Game Over", 32), pos(center()), origin("center")]);
+
+        onKeyPress("space", () => {
+          go("game");
+        });
+      });
+
+      // Start the game
+      go("game");
+    </script>
+  </body>
+</html>
