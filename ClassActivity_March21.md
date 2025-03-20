@@ -11,6 +11,7 @@ python object. that can move up, down, left, and right on the game screen.
 2. Assign an image to your pygame object
 Read the following article and use the information from it to add a an image
 to your pygame object.
+[Adding Image to game object ](https://www.geeksforgeeks.org/python-display-images-with-pygame/)
 
 This assignment will carry over into your async activity and will be do
 by the end of class 3/21/2025, NO EXCEPTIONS. 
