@@ -12,7 +12,6 @@ python object. that can move up, down, left, and right on the game screen.
 Read the following article and use the information from it to add a an image
 to your pygame object.
 
-
 [Adding Image to game object article 1 ](https://www.geeksforgeeks.org/python-display-images-with-pygame/)
 
 [Adding Image to game object article 2](https://pythonprogramming.net/displaying-images-pygame/)
