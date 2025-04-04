@@ -24,7 +24,7 @@ RED = (255, 0, 0)
 
 class Player:
     def __init__(self, x, y):
-        self.width = 40
+        self.width = 100
         self.height = 60
         self.rect = pygame.Rect(x, y, self.width, self.height)
         self.vel = [0, 0]
@@ -32,6 +32,7 @@ class Player:
         self.jump_power = -15
         self.gravity = 1
         self.on_ground = False
+        self.health = 100
 
     def handle_input(self, keys):
         if keys[pygame.K_LEFT]:
@@ -63,9 +64,12 @@ class Player:
 
 
 class Enemy:
+       
     def __init__(self, x, y, width=40, height=40):
         self.rect = pygame.Rect(x, y, width, height)
-
+        self.speed = 10
+        self.health = 30
+        
     def draw(self, surface, scroll_x):
         pygame.draw.rect(surface, RED, (self.rect.x - scroll_x, self.rect.y, self.rect.width, self.rect.height))
 
