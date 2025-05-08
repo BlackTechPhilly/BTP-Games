@@ -59,6 +59,15 @@ class Player:
                     self.vel[1] = 0
                     self.on_ground = True
 
+
+    def attack(self):
+        # Create attack hitbox extending to the right
+        if self.vel[0] >= 0:  # Facing right
+            attack_rect = pygame.Rect(self.rect.right, self.rect.y + 10, 40, self.height - 20)
+        else:  # Facing left
+            attack_rect = pygame.Rect(self.rect.left - 40, self.rect.y + 10, 40, self.height - 20)
+        return attack_rect
+
     def draw(self, surface, scroll_x):
         pygame.draw.rect(surface, BLUE, (self.rect.x - scroll_x, self.rect.y, self.width, self.height))
 
@@ -113,6 +122,11 @@ while running:
     keys = pygame.key.get_pressed()
     player.handle_input(keys)
 
+    # Handle attack key
+    attack_rect = None
+    if keys[pygame.K_a]:  # Press A to attack
+        attack_rect = player.attack()
+
     # ============================
     # Step 9: Physics
     # ============================
@@ -127,6 +141,10 @@ while running:
                 enemies.remove(enemy)
                 player.vel[1] = player.jump_power // 2  # Bounce
 
+        if attack_rect:
+            for enemy in enemies[:]:
+                if attack_rect.colliderect(enemy.rect):
+                    enemies.remove(enemy)
     # ============================
     # Step 11: Camera Scroll
     # ============================
@@ -140,7 +158,10 @@ while running:
 
     for enemy in enemies:
         enemy.draw(screen, scroll_x)
-
+    
+    if attack_rect:
+        pygame.draw.rect(screen, (0, 0, 0), (attack_rect.x - scroll_x, attack_rect.y, attack_rect.width, attack_rect.height), 2)
+    
     player.draw(screen, scroll_x)
 
     pygame.display.flip()
